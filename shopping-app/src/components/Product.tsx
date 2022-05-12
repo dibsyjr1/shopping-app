@@ -7,12 +7,17 @@ export interface ProductProps {
 }
 
 export function Product({ product, onClick }: ProductProps) {
-  const { name, description } = product;
+  const { name, image, description } = product;
   return (
-    <div className="Product">
-      <span>{name}</span>
-      <span>{description}</span>
-      <button onClick={() => onClick(product)}>Add to cart</button>
+    <div className="product-tile">
+      <img className="product-img" src={image} />
+      <div className="product-info">
+        <div className="product-name">{name}</div>
+        <div className="product-description">{description}</div>
+        <button className="product-btn" onClick={() => onClick(product)}>
+          Add to cart
+        </button>
+      </div>
     </div>
   );
 }

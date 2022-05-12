@@ -36,7 +36,7 @@ export function ProductsLayout({
   }
 
   return (
-    <div className="Products-layout">
+    <div className="products-layout">
       {!products ? (
         <div>LOADING...</div>
       ) : (
