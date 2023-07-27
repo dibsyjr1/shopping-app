@@ -15,6 +15,6 @@ beforeEach(() => {
 
 describe("Product", () => {
   it("renders the product image", () => {
-    
+    true;
   });
 });
