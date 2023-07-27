@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 
 import * as api from "./api";
-import type { Product } from "./types";
-import { ProductsLayout } from "./components";
+import { Product as IProduct, CartProduct as ICartProduct } from "./types";
+import { Cart, ProductsLayout } from "./components";
 
 function App() {
-  const [products, setProducts] = useState<Product[]>();
+  const [products, setProducts] = useState<IProduct[]>();
+  const [cartItems, setCartItems] = useState<ICartProduct[]>([]);
 
   useEffect(() => {
     getProducts();
@@ -19,16 +20,45 @@ function App() {
     }, 2000);
   }
 
-  function onProductClick(product: Product) {
-    console.log(product);
+  function addProductToCart(product: IProduct) {
+    if (!cartItems.filter((item) => item.id === product.id).length) {
+      var newProduct = {
+        ...product,
+        count: 1
+      } as ICartProduct;
+
+      setCartItems([...cartItems, newProduct]);
+    } else {
+      cartItems.find((item) => {
+        if (item.id === product.id) item.count++;
+      });
+      
+      setCartItems([...cartItems]);
+    }
+  }
+
+  function removeProductFromCart(product: ICartProduct) {
+    if (cartItems.filter((item) => item.id === product.id && item.count == 1).length) {
+      setCartItems([...cartItems.filter((item) => item.id !== product.id)]);
+    } else {
+      cartItems.find((item) => {
+        if (item.id === product.id) item.count--;
+      });
+      
+      setCartItems([...cartItems]);
+    }
   }
 
   return (
     <div className="App">
+      <Cart 
+        cartItems={cartItems} 
+        removeProductFromCart={removeProductFromCart}
+      />
       <div className="Products">
         <ProductsLayout
           products={products}
-          onProductClick={onProductClick}
+          addProductToCart={addProductToCart}
         ></ProductsLayout>
       </div>
     </div>

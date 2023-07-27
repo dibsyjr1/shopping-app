@@ -1,11 +1,11 @@
-import React, { ChangeEvent, useState, useReducer } from "react";
+import React, { ChangeEvent, useReducer } from "react";
 import type { Product as IProduct } from "../../types";
 import { Product } from "../";
 import "./ProductsLayout.css";
 
 export interface ProductsLayoutProps {
   products: IProduct[] | undefined;
-  onProductClick: (product: IProduct) => void;
+  addProductToCart: (product: IProduct) => void;
 }
 
 interface Inputs {
@@ -15,7 +15,7 @@ interface Inputs {
 
 export function ProductsLayout({
   products,
-  onProductClick,
+  addProductToCart,
 }: ProductsLayoutProps) {
   const reducer = (state: Inputs, event: ChangeEvent<HTMLInputElement>) => ({
     ...state,
@@ -60,7 +60,7 @@ export function ProductsLayout({
               <Product
                 key={product.id}
                 product={product}
-                onClick={console.log}
+                onClick={() => addProductToCart(product)}
               />
             ))}
         </>
